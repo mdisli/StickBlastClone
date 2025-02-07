@@ -86,6 +86,7 @@ namespace _Workspace.Scripts.Board_Scripts
 
         private void GenerateLines()
         {
+            int index = 0;
             foreach (var edge in _edgeList)
             {
                 Vector2Int edgeCoordinate = edge.GetCoordinate();
@@ -98,25 +99,27 @@ namespace _Workspace.Scripts.Board_Scripts
                     if (edgeCoordinate.x == neighbourEdgeCoordinate.x)
                     {
                         GenerateLine(edge, neighbourEdge, LineDirection.Vertical,
-                            edgeCoordinate.y < neighbourEdgeCoordinate.y);
+                            edgeCoordinate.y < neighbourEdgeCoordinate.y,index);
+                        index++;
                     }
                     
                     // Eğer aynı istikamette ise
                     if (edgeCoordinate.y == neighbourEdgeCoordinate.y)
                     {
                         GenerateLine(edge, neighbourEdge, LineDirection.Horizontal,
-                            edgeCoordinate.x < neighbourEdgeCoordinate.x);
+                            edgeCoordinate.x < neighbourEdgeCoordinate.x,index);
+                        index++;
                     }
                     
                     neighbourEdge._neighbourEdges.Remove(edge);
-                    
                 }
             }
         }
 
-        private void GenerateLine(StandardEdge edge1, StandardEdge edge2, LineDirection direction, bool isGreater)
+        private void GenerateLine(StandardEdge edge1, StandardEdge edge2, LineDirection direction, bool isGreater,int index)
         {
             var line = Instantiate(linePrefab, Vector3.zero, Quaternion.identity, _edgeParent);
+            line.SetLineIndex(index);
             line._lineDirection = direction;
 
             if (direction == LineDirection.Horizontal)

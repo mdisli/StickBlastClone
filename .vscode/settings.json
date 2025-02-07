@@ -51,5 +51,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "StickBlastClone.sln"
+    "dotnet.defaultSolution": "StickBlastClone.sln",
+    "dotnet.preferCSharpExtension": true
 }

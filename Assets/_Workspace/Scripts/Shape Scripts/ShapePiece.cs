@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using _Workspace.Scripts.Line___Edge_Scripts;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace _Workspace.Scripts.Shape_Scripts
 {
@@ -16,25 +15,32 @@ namespace _Workspace.Scripts.Shape_Scripts
         [SerializeField] private LayerMask _lineLayerMask;
         [SerializeField] private List<Transform> _rayPointList =new List<Transform>();
         
-        public BaseLine placaebleLine;
+        public IPlaceable currentPlaceable;
+        
+        public LineDirection GetDirection()
+        {
+            return _shapePieceDirection;
+        }
 
         #endregion
 
         public bool CheckForPlacement()
         {
             bool status = false;
-            placaebleLine = null;
+            currentPlaceable = null;
             foreach (var transform1 in _rayPointList)
             {
-                if (!Physics.Raycast(transform1.position, Vector3.down, out var hit, 1f, _lineLayerMask)) continue;
+                if (!Physics.Raycast(transform1.position, Vector3.down, out var hit, 5f, _lineLayerMask)) continue;
                 
-                var line = hit.collider.GetComponent<BaseLine>();
+                var line = hit.collider.GetComponent<IPlaceable>();
+
+                if(line == null) continue;
                 
-                if (line == null || !line._isAvailable) continue;
+                bool status2 = line.CheckShapePieceCanPlace(this);
                 
-                if(_shapePieceDirection != line._lineDirection) continue;
+                if(!status2) continue;
                 
-                placaebleLine = line;
+                currentPlaceable = line;
                 status = true;
                 break;
             }

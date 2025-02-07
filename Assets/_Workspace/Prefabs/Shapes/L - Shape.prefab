@@ -168,7 +168,6 @@ MonoBehaviour:
     m_Bits: 128
   _rayPointList:
   - {fileID: 3039373929151666150}
-  placaebleLine: {fileID: 0}
 --- !u!1 &4018773692091401671
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,7 +219,7 @@ MonoBehaviour:
   - {fileID: 9156923418375888880}
   - {fileID: 4742629956725921936}
   primaryPiece: {fileID: 9156923418375888880}
-  positionOffset: {x: 0, y: 1, z: 0}
+  positionOffset: {x: 0, y: 1, z: 3}
 --- !u!65 &6204815242705696142
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -398,4 +397,3 @@ MonoBehaviour:
     m_Bits: 128
   _rayPointList:
   - {fileID: 8941666299177860838}
-  placaebleLine: {fileID: 0}

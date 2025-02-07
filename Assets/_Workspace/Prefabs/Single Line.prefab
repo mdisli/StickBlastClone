@@ -47,9 +47,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lineHeight: 1.182
-  _lineOffset: 1.5
+  _lineOffset: 2
   _lineCollider: {fileID: 6173492289136058084}
   _lineDirection: 0
+  _lineSprite: {fileID: 7068373584319285824}
+  _lineColor: {r: 0.25490198, g: 0.23137255, b: 0.60784316, a: 1}
+  _lineHighlightColor: {r: 1, g: 0, b: 0.14372826, a: 0.5882353}
   _edgeList: []
 --- !u!65 &6173492289136058084
 BoxCollider:
@@ -145,8 +148,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7,
-    type: 3}
+  m_Sprite: {fileID: 21300000, guid: 46697e966d91742e2826d4e540ce5d64, type: 3}
   m_Color: {r: 0.25490198, g: 0.23137255, b: 0.60784316, a: 1}
   m_FlipX: 0
   m_FlipY: 0
