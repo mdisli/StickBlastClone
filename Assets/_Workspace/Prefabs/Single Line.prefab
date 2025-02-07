@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lineHeight: 1.182
-  _lineOffset: 2
+  _lineOffset: 1
   _lineCollider: {fileID: 6173492289136058084}
   _lineDirection: 0
   _lineSprite: {fileID: 7068373584319285824}
@@ -73,8 +73,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.94, y: 1, z: 3.194}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.85608155, y: 1, z: 2.9881337}
+  m_Center: {x: 0.0038456023, y: 0, z: 0.0030606985}
 --- !u!1 &7347774955173243256
 GameObject:
   m_ObjectHideFlags: 0
