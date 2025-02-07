@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f457178f6cc34b05b03ede9b70fdc2a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lineHeight: 1.5975
+  _lineHeight: 1.182
   _lineOffset: 1.5
   _lineCollider: {fileID: 6173492289136058084}
   _lineDirection: 0

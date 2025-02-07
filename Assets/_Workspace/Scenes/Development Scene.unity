@@ -609,7 +609,7 @@ MonoBehaviour:
     type: 3}
   _edgeXCount: 5
   _edgeZCount: 5
-  _edgeSpacing: 3.195
+  _edgeSpacing: 2.364
   _edgeParent: {fileID: 682950077}
   _edgeList: []
   _lineList: []
