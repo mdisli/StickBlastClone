@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using _Workspace.Scripts.Shape_Scripts;
+using _Workspace.Scripts.SO_Scripts;
 using DG.Tweening;
 using NaughtyAttributes;
 using UnityEngine;
@@ -10,6 +11,9 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
     {
         #region Variables
 
+        [Header("Event SO")]
+        [SerializeField] protected BoardEventSO _boardEventSO;
+        
         [Header("Line Settings")]
         public float _lineHeight = 1.5975f;
         [SerializeField] private float _lineOffset = 1.1f;
@@ -81,7 +85,6 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
         #endregion
 
         #region IPlaceable
-        
         public bool CheckShapePieceCanPlace(ShapePiece shapeToPlace)
         {
             if (!IsAvailable())
@@ -93,8 +96,18 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
             return true;
         }
 
-        public void Place(BaseShape placedShape)
+        public void Place(BaseShape placedShape, bool isAnimate = false)
         {
+            _placedShape = placedShape;
+
+            _edgeList[0].connectedEdgesList.Add(_edgeList[1]);
+            _edgeList[1].connectedEdgesList.Add(_edgeList[0]);
+            
+            if(!isAnimate) return;
+            
+            // Invoke it for once per placing
+            _boardEventSO.InvokeOnShapePlaced();
+            
             Transform placedTransform = placedShape.transform;
             placedTransform.SetParent(transform);
             placedTransform.DOLocalMove(Vector3.zero, 0.1f).SetEase(Ease.Flash);
@@ -117,18 +130,14 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
 
         public void OnPlaceableEnter()
         {
-            Debug.Log("OnPlaceableEnter");
             _lineSprite.color = _lineHighlightColor;
         }
 
         public void OnPlaceableExit()
         {
-            Debug.Log("OnPlaceableExit");
             _lineSprite.color = _lineColor;
         }
 
         #endregion
-
-        
     }
 }

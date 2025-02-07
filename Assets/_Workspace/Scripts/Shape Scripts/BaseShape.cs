@@ -186,10 +186,15 @@ namespace _Workspace.Scripts.Shape_Scripts
         public void Place(BaseShape placedShape)
         {
             if(!CheckForPlacement()) return;
-            
-            _primaryShapePiece.currentPlaceable.Place(placedShape);
+
+            for (int i = 0; i < _shapePieces.Count; i++)
+            {
+                var piece = _shapePieces[i];
+                if(piece == _primaryShapePiece)
+                    piece.currentPlaceable.Place(placedShape,true);
+                else
+                    piece.currentPlaceable.Place(placedShape);
+            }
         }
-        
-        
     }
 }

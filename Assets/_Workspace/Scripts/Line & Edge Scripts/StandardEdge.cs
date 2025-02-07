@@ -11,6 +11,7 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
         private Vector2Int _coordinate;
         public EdgeNeighbours _edgeNeighbours;
         public List<StandardEdge> _neighbourEdges = new List<StandardEdge>();
+        public List<StandardEdge> connectedEdgesList = new List<StandardEdge>();
 
         #endregion
 
