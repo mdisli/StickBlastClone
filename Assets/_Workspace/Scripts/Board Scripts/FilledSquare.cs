@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using _Workspace.Scripts.Line___Edge_Scripts;
 using DG.Tweening;
 using UnityEngine;
 
@@ -8,6 +10,7 @@ namespace _Workspace.Scripts.Board_Scripts
         #region Variables
 
         [SerializeField] private Vector2 _coordinate; 
+        private List<StandardEdge> _edgeList = new List<StandardEdge>();
 
         #endregion
 
@@ -41,5 +44,21 @@ namespace _Workspace.Scripts.Board_Scripts
         }
 
         #endregion
+        
+        public void SetEdges(List<StandardEdge> edgeList)
+        {
+            _edgeList = edgeList;
+        }
+        
+        public bool CompareEdges(List<StandardEdge> edgeList)
+        {
+            foreach (var edge in edgeList)
+            {
+                if (!_edgeList.Contains(edge))
+                    return false;
+            }
+            
+            return true;
+        }
     }
 }

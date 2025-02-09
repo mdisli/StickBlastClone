@@ -28,7 +28,6 @@ namespace _Workspace.Scripts.Board_Scripts
 
         [Header("Lists")] 
         [SerializeField] private List<StandardEdge> _edgeList = new List<StandardEdge>();
-        [SerializeField] private List<StandardEdge> _edgeList2 = new List<StandardEdge>();
         [SerializeField] private List<BaseLine> _lineList = new List<BaseLine>();
         [SerializeField] private List<FilledSquare> _squareList = new List<FilledSquare>();
 
@@ -68,13 +67,11 @@ namespace _Workspace.Scripts.Board_Scripts
 
         #region Square Detection
 
-        private bool CheckForCompletedSquare()
+        private void CheckForCompletedSquare()
         {
             // Each edge needs to check if it forms part of a square
             foreach (var startEdge in _edgeList)
             {
-                if(_edgeList2.Contains(startEdge)) continue;
-                
                 foreach (var connectedEdge in startEdge.connectedEdgesList)
                 {
                     // Get the coordinates of both edges
@@ -100,7 +97,6 @@ namespace _Workspace.Scripts.Board_Scripts
                             )
                         {
                             FillSquare(pos1, pos2, topLeft, topRight);
-                            return true;
                         }
 
                         // Check for square below
@@ -114,7 +110,6 @@ namespace _Workspace.Scripts.Board_Scripts
                              (AreEdgesConnected(pos2, bottomLeft) || AreEdgesConnected(pos2, bottomRight))))
                         {
                             FillSquare(pos1, pos2, bottomLeft, bottomRight);
-                            return true;
                         }
                     }
                     else // Vertical connection
@@ -130,7 +125,6 @@ namespace _Workspace.Scripts.Board_Scripts
                              (AreEdgesConnected(pos2, topRight) || AreEdgesConnected(pos2, bottomRight))))
                         {
                             FillSquare(pos1, pos2, topRight, bottomRight);
-                            return true;
                         }
 
                         // Check for square to the left
@@ -144,13 +138,10 @@ namespace _Workspace.Scripts.Board_Scripts
                              (AreEdgesConnected(pos2, topLeft) || AreEdgesConnected(pos2, bottomLeft))))
                         {
                             FillSquare(pos1, pos2, topLeft, bottomLeft);
-                            return true;
                         }
                     }
                 }
             }
-
-            return false;
         }
 
         private bool DoesEdgeExistAt(Vector2Int position)
@@ -170,6 +161,26 @@ namespace _Workspace.Scripts.Board_Scripts
 
         private void FillSquare(Vector2Int edge1, Vector2Int edge2, Vector2Int edge3, Vector2Int edge4)
         {
+            var edge1Obj = GetEdgeWithCoordinate(edge1);
+            var edge2Obj = GetEdgeWithCoordinate(edge2);
+            var edge3Obj = GetEdgeWithCoordinate(edge3);
+            var edge4Obj = GetEdgeWithCoordinate(edge4);
+
+            List<StandardEdge> connectedEdges = new List<StandardEdge>
+            {
+                edge1Obj,
+                edge2Obj,
+                edge3Obj,
+                edge4Obj
+            };
+
+            for (var i = 0; i < _squareList.Count; i++)
+            {
+                var sq = _squareList[i];
+                if (sq.CompareEdges(connectedEdges))
+                    return;
+            }
+
             FilledSquare square = Instantiate(squarePrefab, Vector3.zero, Quaternion.identity, _edgeParent);
             square.transform.localScale = Vector3.zero;
             
@@ -177,22 +188,14 @@ namespace _Workspace.Scripts.Board_Scripts
             float coordinateY = (edge1.y + edge2.y + edge3.y + edge4.y) / 4f;
             Vector2 squareCoordinate = new Vector2(coordinateX, coordinateY);
             
-            var edge1Obj = GetEdgeWithCoordinate(edge1);
-            var edge2Obj = GetEdgeWithCoordinate(edge2);
-            var edge3Obj = GetEdgeWithCoordinate(edge3);
-            var edge4Obj = GetEdgeWithCoordinate(edge4);
-            
-            _edgeList2.Add(edge1Obj);
-            _edgeList2.Add(edge2Obj);
-            _edgeList2.Add(edge3Obj);
-            _edgeList2.Add(edge4Obj);
-            
             float wpX = (edge1Obj.transform.localPosition.x + edge2Obj.transform.localPosition.x + edge3Obj.transform.localPosition.x + edge4Obj.transform.localPosition.x) / 4f;
             float wpZ = (edge1Obj.transform.localPosition.z + edge2Obj.transform.localPosition.z + edge3Obj.transform.localPosition.z + edge4Obj.transform.localPosition.z) / 4f;
             
             Vector3 worldPosition = new Vector3(wpX, 0, wpZ);
             
             square.GenerateSquare(worldPosition, squareCoordinate);
+            
+            square.SetEdges(connectedEdges);
             
             _squareList.Add(square);
             
