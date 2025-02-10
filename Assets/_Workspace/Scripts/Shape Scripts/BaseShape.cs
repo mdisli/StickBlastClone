@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using _Workspace.Scripts.Line___Edge_Scripts;
 using _Workspace.Scripts.Managers.Input_Manager;
+using _Workspace.Scripts.SO_Scripts;
 using DG.Tweening;
 using UnityEngine;
 
@@ -16,7 +17,9 @@ namespace _Workspace.Scripts.Shape_Scripts
         [SerializeField] protected ShapePiece primaryPiece;
         private CurrentPlaceable _placeableController = new CurrentPlaceable();
         
-        public Vector3 positionOffset;
+        [Header("So References")]
+        [SerializeField] private AnimationSO _animationSO;
+        
         private Vector3 _scaleEffect = Vector3.one * 1.1f;
 
         #endregion
@@ -35,7 +38,7 @@ namespace _Workspace.Scripts.Shape_Scripts
         public void OnClickDown(Vector3 worldPosition)
         {
             ScaleShakeSequence();
-            transform.DOMove(worldPosition + positionOffset, 0.05f).SetEase(Ease.Linear);
+            transform.DOMove(worldPosition + _animationSO.dragOffset, 0.05f).SetEase(Ease.Linear);
         }
 
         public void OnClickUp()
@@ -46,15 +49,12 @@ namespace _Workspace.Scripts.Shape_Scripts
 
         public void OnDrag(Vector3 worldPosition)
         {
-            transform.position = worldPosition + positionOffset;
+            transform.position = worldPosition + _animationSO.dragOffset;
 
             if (!_placeableController.CheckForPlacement())
             {
                 _placeableController.OnPlaceableExit(true);
             }
-            
-            //if(_placeableController.CheckPlaceablesIsSame()) return;
-            
             _placeableController.OnPlaceableEnter();
         }
 

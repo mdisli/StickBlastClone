@@ -28,6 +28,17 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
         }
 
         #endregion
+        
+        public void ClearConnectedEdges(List<StandardEdge> allEdges)
+        {
+            foreach (var edge in allEdges)
+            {
+                if (connectedEdgesList.Contains(edge))
+                {
+                    connectedEdgesList.Remove(edge);
+                }
+            }
+        }
     }
 
     [Serializable]

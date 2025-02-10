@@ -48,7 +48,6 @@ namespace _Workspace.Scripts.Board_Scripts
         #endregion
 
         #region Callbakcs
-
         private void BoardEventSo_OnShapePlaced()
         {
             CheckForCompletedSquare();
@@ -192,8 +191,8 @@ namespace _Workspace.Scripts.Board_Scripts
             Vector3 worldPosition = new Vector3(wpX, 0, wpZ);
             
             square.GenerateSquare(worldPosition, squareCoordinate);
-            
             square.SetEdges(connectedEdges);
+            square.SetLineList(_lineList);
             
             _squareList.Add(square);
         }
@@ -226,10 +225,15 @@ namespace _Workspace.Scripts.Board_Scripts
                 }
             }
             
+            RemoveCompletedSquares(squaresToRemove);
+        }
+
+        private void RemoveCompletedSquares(List<FilledSquare> squaresToRemove)
+        {
             foreach (var square in squaresToRemove)
             {
                 _squareList.Remove(square);
-                Destroy(square.gameObject);
+                square.RemoveSquare();
             }
         }
 
@@ -254,8 +258,12 @@ namespace _Workspace.Scripts.Board_Scripts
             {
                 for (int z = -2; z < _edgeZCount - 2; z++)
                 {
-                    var edge = Instantiate(edgePrefab, new Vector3(x * _edgeSpacing, 0, z * _edgeSpacing),
+                    Vector3 localPosition = new Vector3(x * _edgeSpacing, 0, z * _edgeSpacing);
+                    
+                    var edge = Instantiate(edgePrefab, localPosition,
                         Quaternion.identity, _edgeParent);
+                    
+                    edge.transform.localPosition = localPosition;
 
                     edge.transform.name = $"Edge {x} {z}";
                     edge.SetCoordinate(new Vector2Int(x, z));
@@ -331,6 +339,7 @@ namespace _Workspace.Scripts.Board_Scripts
             int index)
         {
             var line = Instantiate(linePrefab, Vector3.zero, Quaternion.identity, _edgeParent);
+            line.SetConnectingEdges(edge1, edge2);
             line.SetLineIndex(index);
             line._lineDirection = direction;
 

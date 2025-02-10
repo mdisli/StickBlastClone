@@ -11,6 +11,7 @@ namespace _Workspace.Scripts.Board_Scripts
 
         [SerializeField] private Vector2 _coordinate; 
         private List<StandardEdge> _edgeList = new List<StandardEdge>();
+        private List<BaseLine> _lineList = new List<BaseLine>();
 
         #endregion
 
@@ -24,6 +25,16 @@ namespace _Workspace.Scripts.Board_Scripts
         private void SetCoordinate(Vector2 coordinate)
         {
             _coordinate = coordinate;
+        }
+
+        public List<BaseLine> GetLineList()
+        {
+            return _lineList;
+        }
+        
+        public void SetLineList(List<BaseLine> lineList)
+        {
+            _lineList = lineList;
         }
 
         #endregion
@@ -59,6 +70,24 @@ namespace _Workspace.Scripts.Board_Scripts
             }
             
             return true;
+        }
+
+        public void RemoveSquare()
+        {
+            foreach (var baseLine in _lineList)
+            {
+                baseLine.RemovePlacedShape();
+            }
+
+            foreach (var standardEdge in _edgeList)
+            {
+                standardEdge.ClearConnectedEdges(_edgeList);
+            }
+            
+            transform.DOScale(Vector3.zero, 0.15f).SetEase(Ease.Linear).OnComplete(() =>
+            {
+                Destroy(gameObject);
+            });
         }
     }
 }

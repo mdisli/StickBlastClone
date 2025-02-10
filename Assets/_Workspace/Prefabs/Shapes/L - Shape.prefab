@@ -317,7 +317,7 @@ MonoBehaviour:
   - {fileID: 9156923418375888880}
   - {fileID: 4742629956725921936}
   primaryPiece: {fileID: 9156923418375888880}
-  positionOffset: {x: 0, y: 1, z: 3}
+  _animationSO: {fileID: 11400000, guid: 134746c3ae7fe417cb492c1d7942cfa8, type: 2}
 --- !u!65 &6204815242705696142
 BoxCollider:
   m_ObjectHideFlags: 0

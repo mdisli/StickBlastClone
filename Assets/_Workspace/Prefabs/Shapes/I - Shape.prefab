@@ -220,7 +220,7 @@ MonoBehaviour:
   _shapePieces:
   - {fileID: 446259350393118711}
   primaryPiece: {fileID: 446259350393118711}
-  positionOffset: {x: 0, y: 1, z: 3}
+  _animationSO: {fileID: 11400000, guid: 134746c3ae7fe417cb492c1d7942cfa8, type: 2}
 --- !u!65 &6400924480690032205
 BoxCollider:
   m_ObjectHideFlags: 0

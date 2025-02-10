@@ -19,6 +19,7 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
         [SerializeField] private float _lineOffset = 1.1f;
         [SerializeField] private BoxCollider _lineCollider;
         [SerializeField] public LineDirection _lineDirection;
+        [SerializeField] private List<StandardEdge> _connectingEdges;
         
         [Header("Animation")]
         [SerializeField] private SpriteRenderer _lineSprite;
@@ -47,6 +48,10 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
 
         #region Line Funcs
 
+        public void RemovePlacedShape()
+        {
+            _placedShape = null;
+        } 
         protected void SetLineCollider()
         {
             var colSize = _lineCollider.size;
@@ -57,6 +62,11 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
         public void SetLineIndex(int index)
         {
             _lineIndex = index;
+        }
+        
+        public void SetConnectingEdges(StandardEdge edge1, StandardEdge edge2)
+        {
+            _connectingEdges = new List<StandardEdge> {edge1, edge2};
         }
         
         public int GetLineIndex()
@@ -82,6 +92,10 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
             _edgeList = edgeList;
         }
 
+        public bool CheckConnectingEdges(StandardEdge edge1, StandardEdge edge2)
+        {
+            return _connectingEdges.Contains(edge1) && _connectingEdges.Contains(edge2);
+        }
         #endregion
 
         #region IPlaceable

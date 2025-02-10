@@ -567,7 +567,7 @@ GameObject:
   - component: {fileID: 1481643388}
   - component: {fileID: 1481643389}
   m_Layer: 0
-  m_Name: Grid Area
+  m_Name: Board
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -616,7 +616,6 @@ MonoBehaviour:
   _edgeSpacing: 2.364
   _edgeParent: {fileID: 682950077}
   _edgeList: []
-  _edgeList2: []
   _lineList: []
   _squareList: []
 --- !u!1 &1684965484
