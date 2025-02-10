@@ -80,8 +80,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardEventSo: {fileID: 11400000, guid: 431d3ebd3bb4748aa9e1ebc091302529, type: 2}
   shapeList:
-  - {fileID: 1289373653623086388, guid: 1035e5001c21243fcae73928bf57c403, type: 3}
-  - {fileID: 6492895690047140694, guid: 96c3113b1d11849e99b93290725766fa, type: 3}
+  - {fileID: 4383946890155479600, guid: 96c3113b1d11849e99b93290725766fa, type: 3}
+  - {fileID: 3577017200335539045, guid: 1035e5001c21243fcae73928bf57c403, type: 3}
   - {fileID: 3555851277267005049, guid: 8620d5e80afce4c74a316f917c204969, type: 3}
   shapeHolderTransform: {fileID: 507931365458393734}
   shapeSpawnPoints:

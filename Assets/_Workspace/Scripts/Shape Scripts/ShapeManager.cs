@@ -64,7 +64,7 @@ namespace _Workspace.Scripts.Shape_Scripts
                 {
                     var shapeId = levelShapeData.shapeIdList[i];
                     BaseShape shape = Instantiate(shapeList[shapeId], shapeHolderTransform);
-                    shape.transform.localPosition = new Vector3(-15, 0, 0);
+                    shape.transform.localPosition = new Vector3(15, 0, 0);
                     
                     _generatedShapes.Add(shape);
                 }

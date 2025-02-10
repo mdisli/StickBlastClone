@@ -9,6 +9,7 @@ namespace _Workspace.Scripts.Shape_Scripts
         #region Variables
 
         [Header("Shape Piece Settings")]
+        [SerializeField] private SpriteRenderer _shapePieceSpriteRenderer;
         [SerializeField] private LineDirection _shapePieceDirection;
         
         [Header("Raycast Variables")]
@@ -23,6 +24,11 @@ namespace _Workspace.Scripts.Shape_Scripts
         }
 
         #endregion
+        
+        public void SetSpriteRendererOrder(int order=1)
+        {
+            _shapePieceSpriteRenderer.sortingOrder = order;
+        }
 
         public bool CheckForPlacement()
         {

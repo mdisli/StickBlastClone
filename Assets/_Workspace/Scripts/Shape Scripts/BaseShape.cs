@@ -60,6 +60,11 @@ namespace _Workspace.Scripts.Shape_Scripts
             {
                 collider.enabled = false;
             }
+
+            foreach (var shapePiece in _shapePieces)
+            {
+                shapePiece.SetSpriteRendererOrder();
+            }
         }
         public void OnDrag(Vector3 worldPosition)
         {

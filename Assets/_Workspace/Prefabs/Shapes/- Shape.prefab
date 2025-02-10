@@ -171,6 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3aeffde7e7e4121bb60059c7435eec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shapePieceSpriteRenderer: {fileID: 3272612558757914518}
   _shapePieceDirection: 0
   _lineLayerMask:
     serializedVersion: 2
@@ -253,9 +254,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 153a0c942eb1a4671bad85c8d83c88e1, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.98039216, g: 0.17254902, b: 0.6666667, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -341,8 +342,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3651045034041698484}
-  - component: {fileID: 1289373653623086388}
   - component: {fileID: 4954563228951622373}
+  - component: {fileID: 3577017200335539045}
   m_Layer: 6
   m_Name: '- Shape'
   m_TagString: Untagged
@@ -366,24 +367,6 @@ Transform:
   - {fileID: 5633819589168366251}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1289373653623086388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7743509704544039288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5dc5d28e2c84554887d323730b6f689, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _shapePieces:
-  - {fileID: 8732102885702053596}
-  primaryPiece: {fileID: 8732102885702053596}
-  _shapeTransform: {fileID: 5633819589168366251}
-  _colliders: []
-  _animationSO: {fileID: 11400000, guid: 134746c3ae7fe417cb492c1d7942cfa8, type: 2}
 --- !u!65 &4954563228951622373
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -405,6 +388,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.03, y: 1, z: 2.87}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3577017200335539045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7743509704544039288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53011065e4734697b5cb9de34c9ff031, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shapePieces:
+  - {fileID: 8732102885702053596}
+  primaryPiece: {fileID: 8732102885702053596}
+  _shapeTransform: {fileID: 5633819589168366251}
+  _colliders:
+  - {fileID: 4954563228951622373}
+  _animationSO: {fileID: 11400000, guid: 134746c3ae7fe417cb492c1d7942cfa8, type: 2}
 --- !u!1 &7809178620664608301
 GameObject:
   m_ObjectHideFlags: 0

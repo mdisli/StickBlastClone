@@ -23,8 +23,7 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
         
         [Header("Animation")]
         [SerializeField] private SpriteRenderer _lineSprite;
-        [SerializeField] private Color _lineColor;
-        [SerializeField] private Color _lineHighlightColor;
+        [SerializeField] private GameObject _lineHighlighter;
         
         [Header("Line Status")]
         private BaseShape _placedShape;
@@ -116,6 +115,11 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
 
             _edgeList[0].connectedEdgesList.Add(_edgeList[1]);
             _edgeList[1].connectedEdgesList.Add(_edgeList[0]);
+
+            foreach (var connectingEdge in _connectingEdges)
+            {
+                connectingEdge.OpenFilledEdge();
+            }
             
             if(!isAnimate) return;
             
@@ -144,12 +148,20 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
 
         public void OnPlaceableEnter()
         {
-            _lineSprite.color = _lineHighlightColor;
+            _lineHighlighter.SetActive(true);
+            foreach (var connectingEdge in _connectingEdges)
+            {
+                connectingEdge.OpenShadowEdge();
+            }
         }
 
         public void OnPlaceableExit()
         {
-            _lineSprite.color = _lineColor;
+            _lineHighlighter.SetActive(false);
+            foreach (var connectingEdge in _connectingEdges)
+            {
+                connectingEdge.CloseShadowEdge();
+            }
         }
 
         #endregion

@@ -364,6 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3aeffde7e7e4121bb60059c7435eec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shapePieceSpriteRenderer: {fileID: 7566920637956314038}
   _shapePieceDirection: 0
   _lineLayerMask:
     serializedVersion: 2
@@ -477,9 +478,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: ff83d2daa682c4c10b75543a02ec531a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.98039216, g: 0.17254902, b: 0.6666667, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -630,9 +631,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 4baa32c241294492cb144601d374a2bc, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.98039216, g: 0.17254902, b: 0.6666667, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -688,6 +689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3aeffde7e7e4121bb60059c7435eec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shapePieceSpriteRenderer: {fileID: 1172439454212960846}
   _shapePieceDirection: 1
   _lineLayerMask:
     serializedVersion: 2
