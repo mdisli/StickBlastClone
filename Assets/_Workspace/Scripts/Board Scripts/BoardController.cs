@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using _Workspace.Scripts.Line___Edge_Scripts;
+using _Workspace.Scripts.Shape_Scripts;
 using _Workspace.Scripts.SO_Scripts;
 using NaughtyAttributes;
 using UnityEngine;
@@ -34,7 +35,6 @@ namespace _Workspace.Scripts.Board_Scripts
         #endregion
 
         #region Unity Funcs
-
         private void OnEnable()
         {
             _boardEventSO.OnShapePlaced += BoardEventSo_OnShapePlaced;
@@ -48,7 +48,7 @@ namespace _Workspace.Scripts.Board_Scripts
         #endregion
 
         #region Callbakcs
-        private void BoardEventSo_OnShapePlaced()
+        private void BoardEventSo_OnShapePlaced(BaseShape placedShape)
         {
             CheckForCompletedSquare();
         }
@@ -242,7 +242,7 @@ namespace _Workspace.Scripts.Board_Scripts
         #region Generating Board
 
         [Button("Generate Board")]
-        private void GenerateBoard()
+        public void GenerateBoard()
         {
             GenerateEdges();
             GenerateLines();

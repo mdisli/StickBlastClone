@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd8f7c20e1dc4e75850877e53f1c67f0, type: 3}
+  m_Name: Level - 1
+  m_EditorClassIdentifier: 
+  levelId: 0
+  pointPerSquare: 10
+  pointMultiplierOnDoubleSquare: 2
+  targetPoint: 150
+  levelShapeDataList:
+  - shapeIdList: 000000000100000002000000
+  - shapeIdList: 000000000000000001000000
+  - shapeIdList: 000000000100000001000000
+  - shapeIdList: 010000000100000002000000
+  - shapeIdList: 000000000100000000000000

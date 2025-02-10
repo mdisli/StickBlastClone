@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using _Workspace.Scripts.Line___Edge_Scripts;
 using _Workspace.Scripts.Managers.Input_Manager;
 using _Workspace.Scripts.SO_Scripts;
 using DG.Tweening;
@@ -15,12 +13,12 @@ namespace _Workspace.Scripts.Shape_Scripts
         [Header("Shape Settings")]
         [SerializeField] protected List<ShapePiece> _shapePieces = new List<ShapePiece>();
         [SerializeField] protected ShapePiece primaryPiece;
+        [SerializeField] protected Transform _shapeTransform;
         private CurrentPlaceable _placeableController = new CurrentPlaceable();
+        [SerializeField] private Collider[] _colliders;
         
         [Header("So References")]
         [SerializeField] private AnimationSO _animationSO;
-        
-        private Vector3 _scaleEffect = Vector3.one * 1.1f;
 
         #endregion
 
@@ -37,16 +35,32 @@ namespace _Workspace.Scripts.Shape_Scripts
         #region IClickable
         public void OnClickDown(Vector3 worldPosition)
         {
-            ScaleShakeSequence();
+            ScaleUpShakeSequence();
             transform.DOMove(worldPosition + _animationSO.dragOffset, 0.05f).SetEase(Ease.Linear);
         }
 
         public void OnClickUp()
         {
-            ScaleShakeSequence();
-            _placeableController.Place(this);
-        }
+            ScaleDownShakeSequence();
 
+            if (!_placeableController.CheckForPlacement())
+            {
+                transform.DOLocalMove(Vector3.zero, .35f).SetEase(Ease.Flash);
+                return;
+            }
+            
+            _placeableController.Place(this);
+
+            OnShapePlaced();
+        }
+        
+        protected virtual void OnShapePlaced()
+        {
+            foreach (var collider in _colliders)
+            {
+                collider.enabled = false;
+            }
+        }
         public void OnDrag(Vector3 worldPosition)
         {
             transform.position = worldPosition + _animationSO.dragOffset;
@@ -62,139 +76,42 @@ namespace _Workspace.Scripts.Shape_Scripts
 
         #region Tweens
 
-        private Sequence ScaleShakeSequence()
+        private Sequence ScaleUpShakeSequence()
         {
             DOTween.Kill(transform);
             
             Sequence sequence = DOTween.Sequence();
             
-            sequence.Join(transform.DOScale(_scaleEffect, 0.1f).SetEase(Ease.Linear))
+            sequence.Join(transform.DOScale(_animationSO.shapeScaleUpMultiplier, 0.1f).SetEase(Ease.Linear))
                 .Append(transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.Linear));
 
             return sequence;
         }
+        
+        private Sequence ScaleDownShakeSequence()
+        {
+            DOTween.Kill(transform);
+            
+            Sequence sequence = DOTween.Sequence();
+            
+            sequence.Join(transform.DOScale(_animationSO.shapeScaleDownMultiplier, 0.1f).SetEase(Ease.Linear))
+                .Append(transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.Linear));
+
+            return sequence;
+        }
+        
 
         #endregion
-        
-    }
 
-    [Serializable]
-    public class CurrentPlaceable
-    {
-        private List<ShapePiece> _shapePieces = new List<ShapePiece>();
-        private ShapePiece _primaryShapePiece;
-        
-        private List<IPlaceable> _currentPlaceableList = new List<IPlaceable>();
-        private List<IPlaceable> _prevPlaceableList = new List<IPlaceable>();
-
-        #region Setters
-        public void SetPrimaryShape(ShapePiece shapePiece)
+        public Transform GetShapeTransform()
         {
-            _primaryShapePiece = shapePiece;
-        }
-        public void SetShapePieces(List<ShapePiece> shapePieces)
-        {
-            _shapePieces = shapePieces;
+            return _shapeTransform;
         }
 
-        private void SetCurrentPlaceables()
+        public void MoveToSpawnPoint(Transform shapeSpawnPoint)
         {
-            _prevPlaceableList.Clear();
-            _prevPlaceableList.AddRange(_currentPlaceableList);
-            _currentPlaceableList.Clear();
-            
-            foreach (var shapePiece in _shapePieces)
-            {
-                if(shapePiece.currentPlaceable == null) continue;
-                _currentPlaceableList.Add(shapePiece.currentPlaceable);
-            }
-
-            if (!CheckPlaceablesIsSame())
-            {
-                OnPlaceableExit();
-            }
-        }
-        
-        #endregion
-
-        #region Check Funcs
-
-        public bool CheckPlaceablesIsSame()
-        {
-            if(_currentPlaceableList.Count != _prevPlaceableList.Count) return false;
-            
-            for (int i = 0; i < _currentPlaceableList.Count; i++)
-            {
-                IPlaceable currentPlaceable = _currentPlaceableList[i];
-                //IPlaceable prevPlaceable = _prevPlaceableList[i];
-                
-                if(!_prevPlaceableList.Contains(currentPlaceable))
-                    return false;
-                
-                // if(currentPlaceable.GetLineIndex() != prevPlaceable.GetLineIndex())
-                //     return false;
-            }
-            
-            return true;
-        }
-
-         public bool CheckForPlacement()
-        {
-            bool status = true;
-            
-            foreach (var shapePiece in _shapePieces)
-            {
-                if (!shapePiece.CheckForPlacement())
-                {
-                    status = false;
-                }
-            }
-            
-            return status;
-        }
-
-        #endregion
-        
-        public void OnPlaceableEnter()
-        {
-            SetCurrentPlaceables();
-            
-            if(!CheckForPlacement())
-                return;
-            
-            if(CheckPlaceablesIsSame()) return;
-            
-            foreach (var placeable in _shapePieces)
-            {
-                placeable.currentPlaceable?.OnPlaceableEnter();
-            }
-        }
-        public void OnPlaceableExit(bool clearLists=false)
-        {
-            foreach (var placeable in _prevPlaceableList)
-            {
-                placeable.OnPlaceableExit();
-            }
-
-            if (!clearLists) return;
-            
-            _prevPlaceableList.Clear();
-            _currentPlaceableList.Clear();
-
-        }
-        
-        public void Place(BaseShape placedShape)
-        {
-            if(!CheckForPlacement()) return;
-
-            for (int i = 0; i < _shapePieces.Count; i++)
-            {
-                var piece = _shapePieces[i];
-                if(piece == _primaryShapePiece)
-                    piece.currentPlaceable.Place(placedShape,true);
-                else
-                    piece.currentPlaceable.Place(placedShape);
-            }
+            transform.SetParent(shapeSpawnPoint);
+            transform.DOLocalMove(Vector3.zero, 0.5f).SetEase(Ease.Linear);
         }
     }
 }

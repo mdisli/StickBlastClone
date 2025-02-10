@@ -10,6 +10,11 @@ namespace _Workspace.Scripts.SO_Scripts
         [Header("Dragging Animation")] 
         public Vector3 dragOffset;
 
+        [Header("Shape Animations")] 
+        public float shapeScaleUpMultiplier;
+        public float shapeScaleDownMultiplier;
+        
+
         #endregion
     }
 }

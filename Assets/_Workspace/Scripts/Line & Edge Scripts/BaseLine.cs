@@ -120,9 +120,9 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
             if(!isAnimate) return;
             
             // Invoke it for once per placing
-            _boardEventSO.InvokeOnShapePlaced();
+            _boardEventSO.InvokeOnShapePlaced(placedShape);
             
-            Transform placedTransform = placedShape.transform;
+            Transform placedTransform = placedShape.GetShapeTransform();
             placedTransform.SetParent(transform);
             placedTransform.DOLocalMove(Vector3.zero, 0.1f).SetEase(Ease.Flash);
         }

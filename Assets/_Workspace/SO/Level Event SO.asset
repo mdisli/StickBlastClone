@@ -9,9 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90502065256b4476ad81781274b38a37, type: 3}
-  m_Name: Animation SO
+  m_Script: {fileID: 11500000, guid: 9b2fba0d47df4ec2bee6366aacdee5eb, type: 3}
+  m_Name: Level Event SO
   m_EditorClassIdentifier: 
-  dragOffset: {x: 0, y: 2, z: 2}
-  shapeScaleUpMultiplier: 1.1
-  shapeScaleDownMultiplier: 0.9
