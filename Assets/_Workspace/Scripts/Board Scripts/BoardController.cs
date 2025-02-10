@@ -66,7 +66,6 @@ namespace _Workspace.Scripts.Board_Scripts
         #endregion
 
         #region Square Detection
-
         private void CheckForCompletedSquare()
         {
             // Each edge needs to check if it forms part of a square
@@ -142,15 +141,15 @@ namespace _Workspace.Scripts.Board_Scripts
                     }
                 }
             }
-        }
-
+            
+            CheckForCompletedRowAndColumn();
+        }  
         private bool DoesEdgeExistAt(Vector2Int position)
         {
             var edge = GetEdgeWithCoordinate(position);
             
             return edge != null;
         }
-
         private bool AreEdgesConnected(Vector2Int pos1, Vector2Int pos2)
         {
             var edge1 = GetEdgeWithCoordinate(pos1);
@@ -158,7 +157,6 @@ namespace _Workspace.Scripts.Board_Scripts
             
             return edge1.connectedEdgesList.Contains(edge2);
         }
-
         private void FillSquare(Vector2Int edge1, Vector2Int edge2, Vector2Int edge3, Vector2Int edge4)
         {
             var edge1Obj = GetEdgeWithCoordinate(edge1);
@@ -198,7 +196,41 @@ namespace _Workspace.Scripts.Board_Scripts
             square.SetEdges(connectedEdges);
             
             _squareList.Add(square);
+        }
+
+        #endregion
+
+        #region Row-Column Detection
+
+        private void CheckForCompletedRowAndColumn()
+        {
+            List<FilledSquare> squaresToRemove = new List<FilledSquare>();
             
+            foreach (var filledSquare in _squareList.ToList())
+            {
+                var coordinate = filledSquare.GetCoordinate();
+                var x = coordinate.x;
+                var z = coordinate.y;
+                
+                var squaresInRow = _squareList.Where(sq => Mathf.Approximately(sq.GetCoordinate().y, z)).ToList();
+                var squaresInColumn = _squareList.Where(sq => Mathf.Approximately(sq.GetCoordinate().x, x)).ToList();
+                
+                if (squaresInRow.Count == _edgeXCount -1)
+                {
+                    squaresToRemove.AddRange(squaresInRow);
+                }
+                
+                if (squaresInColumn.Count == _edgeZCount - 1)
+                {
+                    squaresToRemove.AddRange(squaresInColumn);
+                }
+            }
+            
+            foreach (var square in squaresToRemove)
+            {
+                _squareList.Remove(square);
+                Destroy(square.gameObject);
+            }
         }
 
         #endregion
