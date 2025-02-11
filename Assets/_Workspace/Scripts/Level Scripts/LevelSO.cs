@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Workspace.Scripts.Level_Scripts
 {
@@ -8,7 +9,7 @@ namespace _Workspace.Scripts.Level_Scripts
     public class LevelSO : ScriptableObject
     {
         public int levelId;
-        public int pointPerSquare;
+        [FormerlySerializedAs("pointPerSquare")] public int pointPerRowColumn;
         public float pointMultiplierOnDoubleSquare;
         public int targetPoint;
         public List<LevelShapeData> levelShapeDataList = new List<LevelShapeData>();

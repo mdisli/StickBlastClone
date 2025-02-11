@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Level - 1
   m_EditorClassIdentifier: 
   levelId: 0
-  pointPerSquare: 10
+  pointPerRowColumn: 100
   pointMultiplierOnDoubleSquare: 2
-  targetPoint: 150
+  targetPoint: 50
   levelShapeDataList:
   - shapeIdList: 000000000100000001000000
   - shapeIdList: 000000000100000000000000

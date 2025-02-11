@@ -251,6 +251,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 184da4c3317740c4b89928eee97cde76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boardEventSo: {fileID: 11400000, guid: 431d3ebd3bb4748aa9e1ebc091302529, type: 2}
+  levelEventSo: {fileID: 11400000, guid: 13958c1f598bf4774a1876cd6f84c5a0, type: 2}
   boardController: {fileID: 8401010172386955304}
   shapeManager: {fileID: 1481272162793271555}
 --- !u!1 &4163672037519520894

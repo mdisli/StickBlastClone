@@ -226,6 +226,8 @@ namespace _Workspace.Scripts.Board_Scripts
                 }
             }
             
+            if(squaresToRemove.Count == 0) return;
+            
             RemoveCompletedSquares(squaresToRemove);
         }
 
