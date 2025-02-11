@@ -3,6 +3,7 @@ using System.Linq;
 using _Workspace.Scripts.Line___Edge_Scripts;
 using _Workspace.Scripts.Shape_Scripts;
 using _Workspace.Scripts.SO_Scripts;
+using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -65,7 +66,7 @@ namespace _Workspace.Scripts.Board_Scripts
         #endregion
 
         #region Square Detection
-        private void CheckForCompletedSquare()
+        private async void CheckForCompletedSquare()
         {
             // Each edge needs to check if it forms part of a square
             foreach (var startEdge in _edgeList)
@@ -94,7 +95,7 @@ namespace _Workspace.Scripts.Board_Scripts
                             )
                             )
                         {
-                            FillSquare(pos1, pos2, topLeft, topRight);
+                            await FillSquare(pos1, pos2, topLeft, topRight);
                         }
 
                         // Check for square below
@@ -107,7 +108,7 @@ namespace _Workspace.Scripts.Board_Scripts
                             ((AreEdgesConnected(pos1, bottomLeft) || AreEdgesConnected(pos1, bottomRight)) && 
                              (AreEdgesConnected(pos2, bottomLeft) || AreEdgesConnected(pos2, bottomRight))))
                         {
-                            FillSquare(pos1, pos2, bottomLeft, bottomRight);
+                            await FillSquare(pos1, pos2, bottomLeft, bottomRight);
                         }
                     }
                     else // Vertical connection
@@ -122,7 +123,7 @@ namespace _Workspace.Scripts.Board_Scripts
                             ((AreEdgesConnected(pos1, topRight) || AreEdgesConnected(pos1, bottomRight)) && 
                              (AreEdgesConnected(pos2, topRight) || AreEdgesConnected(pos2, bottomRight))))
                         {
-                            FillSquare(pos1, pos2, topRight, bottomRight);
+                            await FillSquare(pos1, pos2, topRight, bottomRight);
                         }
 
                         // Check for square to the left
@@ -135,7 +136,7 @@ namespace _Workspace.Scripts.Board_Scripts
                             ((AreEdgesConnected(pos1, topLeft) || AreEdgesConnected(pos1, bottomLeft)) && 
                              (AreEdgesConnected(pos2, topLeft) || AreEdgesConnected(pos2, bottomLeft))))
                         {
-                            FillSquare(pos1, pos2, topLeft, bottomLeft);
+                            await FillSquare(pos1, pos2, topLeft, bottomLeft);
                         }
                     }
                 }
@@ -156,7 +157,7 @@ namespace _Workspace.Scripts.Board_Scripts
             
             return edge1.connectedEdgesList.Contains(edge2);
         }
-        private void FillSquare(Vector2Int edge1, Vector2Int edge2, Vector2Int edge3, Vector2Int edge4)
+        private async UniTask FillSquare(Vector2Int edge1, Vector2Int edge2, Vector2Int edge3, Vector2Int edge4)
         {
             var edge1Obj = GetEdgeWithCoordinate(edge1);
             var edge2Obj = GetEdgeWithCoordinate(edge2);
@@ -190,7 +191,7 @@ namespace _Workspace.Scripts.Board_Scripts
             
             Vector3 worldPosition = new Vector3(wpX, 0, wpZ);
             
-            square.GenerateSquare(worldPosition, squareCoordinate);
+            await square.GenerateSquare(worldPosition, squareCoordinate);
             square.SetEdges(connectedEdges);
             square.SetLineList(_lineList);
             
@@ -230,10 +231,19 @@ namespace _Workspace.Scripts.Board_Scripts
 
         private void RemoveCompletedSquares(List<FilledSquare> squaresToRemove)
         {
+            int rowCount = squaresToRemove.Count / (_edgeXCount - 1);
+            
+            _boardEventSO.InvokeOnRowColumnFilled(rowCount);
+            
             foreach (var square in squaresToRemove)
             {
                 _squareList.Remove(square);
                 square.RemoveSquare();
+            }
+
+            foreach (var filledSquare in _squareList)
+            {
+                filledSquare.OpenFilledEdges();
             }
         }
 

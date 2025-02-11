@@ -43,8 +43,15 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
                     connectedEdgesList.Remove(edge);
                 }
             }
+
+            if (connectedEdgesList.Count != 0) return;
+            
+            CloseShadowEdge();
+            CloseFilledEdge();
+            _emptyEdge.SetActive(true);
         }
-        
+
+        #region Visual Effects
         public void OpenShadowEdge()
         {
             _shadowEdge.SetActive(true);
@@ -68,6 +75,8 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
             _filledEdge.SetActive(false);
             CloseShadowEdge();
         }
+
+        #endregion
     }
     
 

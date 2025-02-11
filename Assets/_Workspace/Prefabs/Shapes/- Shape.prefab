@@ -386,7 +386,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.03, y: 1, z: 2.87}
+  m_Size: {x: 4, y: 1, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3577017200335539045
 MonoBehaviour:
@@ -406,6 +406,7 @@ MonoBehaviour:
   _shapeTransform: {fileID: 5633819589168366251}
   _colliders:
   - {fileID: 4954563228951622373}
+  _shapeIndex: 0
   _animationSO: {fileID: 11400000, guid: 134746c3ae7fe417cb492c1d7942cfa8, type: 2}
 --- !u!1 &7809178620664608301
 GameObject:

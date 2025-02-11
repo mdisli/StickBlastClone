@@ -11,7 +11,7 @@ namespace _Workspace.Scripts.SO_Scripts
 
         public UnityAction<BaseShape> OnShapePlaced;
         public UnityAction<int> OnSquareFilled;
-        public UnityAction OnRowColumnFilled;
+        public UnityAction<int> OnRowColumnFilled;
 
         #endregion
 
@@ -27,9 +27,9 @@ namespace _Workspace.Scripts.SO_Scripts
             OnSquareFilled?.Invoke(squareCount);
         }
         
-        public void InvokeOnRowColumnFilled()
+        public void InvokeOnRowColumnFilled(int rowColumnCount)
         {
-            OnRowColumnFilled?.Invoke();
+            OnRowColumnFilled?.Invoke(rowColumnCount);
         }
 
         #endregion

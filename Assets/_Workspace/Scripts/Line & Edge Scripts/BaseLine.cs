@@ -49,6 +49,8 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
 
         public void RemovePlacedShape()
         {
+            if(_placedShape is not null)
+                _placedShape.BreakShape();
             _placedShape = null;
         } 
         protected void SetLineCollider()
@@ -68,10 +70,17 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
             _connectingEdges = new List<StandardEdge> {edge1, edge2};
         }
         
+        public List<StandardEdge> GetConnectingEdges()
+        {
+            return _connectingEdges;
+        }
+        
         public int GetLineIndex()
         {
             return _lineIndex;
         }
+        
+        
         
         #endregion
 
@@ -91,9 +100,17 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
             _edgeList = edgeList;
         }
 
-        public bool CheckConnectingEdges(StandardEdge edge1, StandardEdge edge2)
+        public bool CheckConnectingEdges(params StandardEdge[] edges)
         {
-            return _connectingEdges.Contains(edge1) && _connectingEdges.Contains(edge2);
+            int count = 0;
+            
+            foreach (var edge in edges)
+            {
+                if (_connectingEdges.Contains(edge))
+                    count++;
+            }
+            
+            return count == 2;
         }
         #endregion
 
@@ -109,6 +126,11 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
             return true;
         }
 
+        private void SetHighLighterStatus(bool status)
+        {
+            _lineHighlighter.SetActive(status);
+        }
+        
         public void Place(BaseShape placedShape, bool isAnimate = false)
         {
             _placedShape = placedShape;
@@ -116,6 +138,8 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
             _edgeList[0].connectedEdgesList.Add(_edgeList[1]);
             _edgeList[1].connectedEdgesList.Add(_edgeList[0]);
 
+            SetHighLighterStatus(false);
+            
             foreach (var connectingEdge in _connectingEdges)
             {
                 connectingEdge.OpenFilledEdge();
@@ -148,7 +172,7 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
 
         public void OnPlaceableEnter()
         {
-            _lineHighlighter.SetActive(true);
+            SetHighLighterStatus(true);
             foreach (var connectingEdge in _connectingEdges)
             {
                 connectingEdge.OpenShadowEdge();
@@ -157,7 +181,8 @@ namespace _Workspace.Scripts.Line___Edge_Scripts
 
         public void OnPlaceableExit()
         {
-            _lineHighlighter.SetActive(false);
+            SetHighLighterStatus(false);
+            
             foreach (var connectingEdge in _connectingEdges)
             {
                 connectingEdge.CloseShadowEdge();

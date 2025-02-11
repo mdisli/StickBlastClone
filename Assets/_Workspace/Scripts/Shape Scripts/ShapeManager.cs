@@ -58,12 +58,15 @@ namespace _Workspace.Scripts.Shape_Scripts
 
         private async void GenerateShapes()
         {
+            int shapeIndex = 0;
             foreach (var levelShapeData in shapeData)
             {
                 for (int i = 0; i < 3; i++)
                 {
                     var shapeId = levelShapeData.shapeIdList[i];
                     BaseShape shape = Instantiate(shapeList[shapeId], shapeHolderTransform);
+                    shape.SetShapeIndex(shapeIndex);
+                    shapeIndex++;
                     shape.transform.localPosition = new Vector3(15, 0, 0);
                     
                     _generatedShapes.Add(shape);

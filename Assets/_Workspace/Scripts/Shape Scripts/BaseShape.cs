@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using _Workspace.Scripts.Managers.Input_Manager;
 using _Workspace.Scripts.SO_Scripts;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ namespace _Workspace.Scripts.Shape_Scripts
         [SerializeField] protected Transform _shapeTransform;
         private CurrentPlaceable _placeableController = new CurrentPlaceable();
         [SerializeField] private Collider[] _colliders;
+        [SerializeField] private int _shapeIndex;
         
         [Header("So References")]
         [SerializeField] private AnimationSO _animationSO;
@@ -79,8 +81,39 @@ namespace _Workspace.Scripts.Shape_Scripts
 
         #endregion
 
+        #region Abstract Funcs
+
+        public async void BreakShape()
+        {
+            foreach (var shapePiece in _shapePieces)
+            {
+                await UniTask.Delay(Random.Range(0, 150));
+                
+                shapePiece.transform.SetParent(null);
+                BreakShapePiece(shapePiece.transform).OnComplete(() =>
+                {
+                    Destroy(shapePiece.gameObject);
+                    Destroy(gameObject);
+                });
+            }
+        }
+
+        #endregion
+        
         #region Tweens
 
+        private Sequence BreakShapePiece(Transform shapePiece)
+        {
+            Sequence sequence = DOTween.Sequence();
+            
+            Vector3 randomRotation = Random.Range(0, 100) % 2 == 0 ? new Vector3(0, Random.Range(100,300), 0) : new Vector3(0, Random.Range(-100,-300), 0);
+
+            sequence.Join(shapePiece.DOScale(Vector3.zero, .6f).SetEase(Ease.Linear))
+                .Join(shapePiece.DOLocalRotate(randomRotation, .5f,RotateMode.WorldAxisAdd).SetEase(Ease.Linear))
+                .Join(shapePiece.DOMoveZ(-20,.8f).SetEase(Ease.Linear));
+
+            return sequence;
+        }
         private Sequence ScaleUpShakeSequence()
         {
             DOTween.Kill(transform);
@@ -108,6 +141,15 @@ namespace _Workspace.Scripts.Shape_Scripts
 
         #endregion
 
+        public void SetShapeIndex(int index)
+        {
+            _shapeIndex = index;
+        }
+        
+        public int GetShapeIndex()
+        {
+            return _shapeIndex;
+        }
         public Transform GetShapeTransform()
         {
             return _shapeTransform;

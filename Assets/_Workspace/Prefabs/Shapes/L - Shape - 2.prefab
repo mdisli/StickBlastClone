@@ -182,6 +182,7 @@ MonoBehaviour:
   primaryPiece: {fileID: 7917862652421921957}
   _shapeTransform: {fileID: 1947598680045227720}
   _colliders: []
+  _shapeIndex: 0
   _animationSO: {fileID: 11400000, guid: 134746c3ae7fe417cb492c1d7942cfa8, type: 2}
 --- !u!65 &3413181605639640750
 BoxCollider:
@@ -202,7 +203,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.19, y: 1, z: 3.07}
+  m_Size: {x: 2, y: 1, z: 4}
   m_Center: {x: -1.07, y: 0, z: 0}
 --- !u!65 &5835985935581104009
 BoxCollider:
@@ -223,7 +224,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.05, y: 1, z: 1.06}
+  m_Size: {x: 4, y: 1, z: 2}
   m_Center: {x: 0, y: 0, z: -1.07}
 --- !u!1 &2610548757241088715
 GameObject:

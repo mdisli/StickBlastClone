@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using _Workspace.Scripts.Line___Edge_Scripts;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -9,7 +10,9 @@ namespace _Workspace.Scripts.Board_Scripts
     {
         #region Variables
 
-        [SerializeField] private Vector2 _coordinate; 
+        [SerializeField] private Transform spriteHolder;
+        
+        private Vector2 _coordinate; 
         private List<StandardEdge> _edgeList = new List<StandardEdge>();
         private List<BaseLine> _lineList = new List<BaseLine>();
 
@@ -41,17 +44,19 @@ namespace _Workspace.Scripts.Board_Scripts
 
         #region Generating
 
-        public void GenerateSquare(Vector3 worldPosition, Vector2 coordinate)
+        public async UniTask GenerateSquare(Vector3 worldPosition, Vector2 coordinate)
         {
             SetCoordinate(coordinate);
             transform.localPosition = worldPosition;
             transform.localScale = Vector3.zero;
-            OpenSquare();
+            await OpenSquare().AsyncWaitForCompletion();
         }
         
-        public void OpenSquare()
+        private Tween OpenSquare()
         {
-            transform.DOScale(Vector3.one, 0.15f).SetEase(Ease.Linear);
+            transform.localScale = Vector3.one;
+            
+            return spriteHolder.DOScale(Vector3.one, 0.25f).SetEase(Ease.Linear);
         }
 
         #endregion
@@ -76,6 +81,9 @@ namespace _Workspace.Scripts.Board_Scripts
         {
             foreach (var baseLine in _lineList)
             {
+                if(!CheckLineIsPartOfSquare(baseLine))
+                    continue;
+                
                 baseLine.RemovePlacedShape();
             }
 
@@ -88,6 +96,27 @@ namespace _Workspace.Scripts.Board_Scripts
             {
                 Destroy(gameObject);
             });
+        }
+
+        private bool CheckLineIsPartOfSquare(BaseLine line)
+        {
+            var connectingEdges= line.GetConnectingEdges();
+            
+            foreach (var edge in connectingEdges)
+            {
+                if (!_edgeList.Contains(edge))
+                    return false;
+            }
+            
+            return true;
+        }
+
+        public void OpenFilledEdges()
+        {
+            foreach (var edge in _edgeList)
+            {
+                edge.OpenFilledEdge();
+            }
         }
     }
 }
