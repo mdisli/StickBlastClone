@@ -1,3 +1,5 @@
+using System;
+using _Workspace.Scripts.Level_Scripts;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -9,6 +11,8 @@ namespace _Workspace.Scripts.Managers.Input_Manager
 
         [SerializeField] private LayerMask clickableLayer;
         
+        [SerializeField] private LevelEventSO levelEventSO;
+        
         private bool OnMouseDown => Input.GetMouseButtonDown(0);
         private bool OnMouseUp => Input.GetMouseButtonUp(0);
         
@@ -17,6 +21,8 @@ namespace _Workspace.Scripts.Managers.Input_Manager
         private Camera _mainCamera;
         
         private IClickable _currentClickable;
+
+        private bool _canClick;
 
         #endregion
 
@@ -27,8 +33,40 @@ namespace _Workspace.Scripts.Managers.Input_Manager
             _mainCamera = Camera.main;
         }
 
+        private void OnEnable()
+        {
+            levelEventSO.OnLevelStarted += LevelEventSo_OnLevelStarted;
+            levelEventSO.OnLevelCompleted += LevelEventSo_OnLevelCompleted;
+            levelEventSO.OnLevelFailed += LevelEventSo_OnLevelFailed;
+        }
+
+        private void OnDisable()
+        {
+            levelEventSO.OnLevelStarted -= LevelEventSo_OnLevelStarted;
+            levelEventSO.OnLevelCompleted -= LevelEventSo_OnLevelCompleted;
+            levelEventSO.OnLevelFailed -= LevelEventSo_OnLevelFailed;
+        }
+
+        private void LevelEventSo_OnLevelFailed(int arg0)
+        {
+            _canClick = false;
+        }
+
+        private void LevelEventSo_OnLevelCompleted(int arg0)
+        {
+            _canClick = false;
+        }
+
+        private void LevelEventSo_OnLevelStarted()
+        {
+            _canClick = true;
+        }
+
         private void Update()
         {
+            if(!_canClick)
+                return;
+            
             if (OnMouseDown && CheckForClickable())
                 OnClickDown();
 

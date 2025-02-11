@@ -2106,6 +2106,7 @@ MonoBehaviour:
   clickableLayer:
     serializedVersion: 2
     m_Bits: 64
+  levelEventSO: {fileID: 11400000, guid: 13958c1f598bf4774a1876cd6f84c5a0, type: 2}
 --- !u!1 &1754076311
 GameObject:
   m_ObjectHideFlags: 0
@@ -2436,6 +2437,8 @@ MonoBehaviour:
   levelEventSO: {fileID: 11400000, guid: 13958c1f598bf4774a1876cd6f84c5a0, type: 2}
   levelList:
   - {fileID: 11400000, guid: 6e52340c0004647438b232c8a512c179, type: 2}
+  - {fileID: 11400000, guid: 5e5eaf688ee714982abb85a0128b0a0a, type: 2}
+  - {fileID: 11400000, guid: d631ae0d62c0a4496944df33efcee6f0, type: 2}
   levelControllerPrefab: {fileID: 3081562730916604875, guid: 5d64b6e1811254a64aeec35a606d6542,
     type: 3}
 --- !u!1 &2035231320

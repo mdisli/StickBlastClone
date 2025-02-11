@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90502065256b4476ad81781274b38a37, type: 3}
   m_Name: Animation SO
   m_EditorClassIdentifier: 
-  dragOffset: {x: 0, y: 2, z: 2}
+  dragOffset: {x: 0, y: 2, z: 4}
   shapeScaleUpMultiplier: 1.1
   shapeScaleDownMultiplier: 0.9

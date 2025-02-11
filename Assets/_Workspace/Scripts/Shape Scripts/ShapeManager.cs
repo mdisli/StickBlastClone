@@ -80,6 +80,12 @@ namespace _Workspace.Scripts.Shape_Scripts
 
         private void GetShapesToSpawnPoint()
         {
+            if (_generatedShapes.Count < 3)
+            {
+                GenerateShapes();
+                return;
+            }
+            
             for (int i = 0; i < 3; i++)
             {
                 var shape = _generatedShapes[0];
