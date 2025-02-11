@@ -41,7 +41,8 @@ namespace _Workspace.Scripts.Level_Scripts
             levelEventSO.InvokeOnLevelSelected(levelData);
             
             levelController.SetLevelData(levelData);
-            
+        
+            levelEventSO.InvokeOnLevelStarted();
         }
 
         #endregion

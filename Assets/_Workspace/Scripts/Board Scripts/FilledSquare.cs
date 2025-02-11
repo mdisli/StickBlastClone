@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using _Workspace.Scripts.Diamond;
 using _Workspace.Scripts.Line___Edge_Scripts;
+using _Workspace.Scripts.SO_Scripts;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -10,11 +12,14 @@ namespace _Workspace.Scripts.Board_Scripts
     {
         #region Variables
 
+        [SerializeField] private BoardEventSO boardEventSo;
         [SerializeField] private Transform spriteHolder;
         
         private Vector2 _coordinate; 
         private List<StandardEdge> _edgeList = new List<StandardEdge>();
         private List<BaseLine> _lineList = new List<BaseLine>();
+
+        private DiamondController _placedDiamond;
 
         #endregion
 
@@ -40,6 +45,29 @@ namespace _Workspace.Scripts.Board_Scripts
             _lineList = lineList;
         }
 
+        public DiamondController GetPlacedDiamond()
+        {
+            return _placedDiamond;
+        }
+        
+        public void SetPlacedDiamond(DiamondController diamond)
+        {
+            _placedDiamond = diamond;
+            
+            if(_placedDiamond == null) return;
+            
+            Transform diamondTransform = diamond.transform;
+            diamondTransform.SetParent(transform);
+            diamondTransform.localPosition = Vector3.zero;
+            diamondTransform.SetParent(null);
+            diamondTransform.DOScale(Vector3.one, .25f).SetEase(Ease.Linear);
+        }
+        
+        public bool CheckDiamondIsPlaced()
+        {
+            return _placedDiamond != null;
+        }
+        
         #endregion
 
         #region Generating
@@ -79,6 +107,12 @@ namespace _Workspace.Scripts.Board_Scripts
 
         public void RemoveSquare()
         {
+            if (CheckDiamondIsPlaced())
+            {
+                boardEventSo.InvokeOnDiamondCollected(_placedDiamond);
+                SetPlacedDiamond(null);
+            }
+            
             foreach (var baseLine in _lineList)
             {
                 if(!CheckLineIsPartOfSquare(baseLine))

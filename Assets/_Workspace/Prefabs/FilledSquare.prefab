@@ -130,6 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dcf5e6bac8b4e5b8c8c95adabb7e7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boardEventSo: {fileID: 11400000, guid: 431d3ebd3bb4748aa9e1ebc091302529, type: 2}
   spriteHolder: {fileID: 4384235944266451882}
 --- !u!1 &7896003670888332611
 GameObject:

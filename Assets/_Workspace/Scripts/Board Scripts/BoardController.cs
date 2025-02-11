@@ -1,11 +1,16 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using _Workspace.Scripts.Diamond;
+using _Workspace.Scripts.Level_Scripts;
 using _Workspace.Scripts.Line___Edge_Scripts;
 using _Workspace.Scripts.Shape_Scripts;
 using _Workspace.Scripts.SO_Scripts;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace _Workspace.Scripts.Board_Scripts
 {
@@ -13,13 +18,15 @@ namespace _Workspace.Scripts.Board_Scripts
     {
         #region Variables
 
-        [Header("SO References")] [SerializeField]
-        private BoardEventSO _boardEventSO;
+        [Header("SO References")] 
+        [SerializeField] private BoardEventSO _boardEventSO;
+        [SerializeField] private LevelEventSO _levelEventSo;
 
         [Header("Prefabs")] 
         [SerializeField] private BaseLine linePrefab;
         [SerializeField] private StandardEdge edgePrefab;
         [SerializeField] private FilledSquare squarePrefab;
+        [SerializeField] private DiamondController diamondPrefab;
 
         [Header("Grid Settings")] [SerializeField]
         private int _edgeXCount;
@@ -33,16 +40,21 @@ namespace _Workspace.Scripts.Board_Scripts
         [SerializeField] private List<BaseLine> _lineList = new List<BaseLine>();
         [SerializeField] private List<FilledSquare> _squareList = new List<FilledSquare>();
 
+        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+        
         #endregion
 
         #region Unity Funcs
+
         private void OnEnable()
         {
+            _levelEventSo.OnLevelStarted += LevelEventSo_OnLevelStarted;
             _boardEventSO.OnShapePlaced += BoardEventSo_OnShapePlaced;
         }
 
         private void OnDisable()
         {
+            _levelEventSo.OnLevelStarted -= LevelEventSo_OnLevelStarted;
             _boardEventSO.OnShapePlaced -= BoardEventSo_OnShapePlaced;
         }
 
@@ -53,7 +65,40 @@ namespace _Workspace.Scripts.Board_Scripts
         {
             CheckForCompletedSquare();
         }
+        
+        private void LevelEventSo_OnLevelStarted()
+        {
+            GenerateDiamondAsync(_cancellationTokenSource.Token).Forget();
+        }
 
+        private async UniTask GenerateDiamondAsync(CancellationToken cancellationToken)
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                float countdown = Random.Range(1000, 5000);
+            
+                await UniTask.Delay((int) countdown, cancellationToken: cancellationToken);
+                
+                GenerateDiamond();
+            }
+             
+        }
+
+        private void GenerateDiamond()
+        {
+            if(_squareList.Count == 0) return;
+            
+            // int randomNumber = Random.Range(0, 100);
+            // if(randomNumber > 35) return;
+            
+            FilledSquare randomSquare = _squareList.Where(sq => !sq.CheckDiamondIsPlaced()).OrderBy(x => Random.value).FirstOrDefault();
+
+            if(randomSquare == null) return;
+            
+            DiamondController diamond = Instantiate(diamondPrefab);
+            
+            randomSquare.SetPlacedDiamond(diamond);
+        }
         #endregion
 
         #region Edge Funcs

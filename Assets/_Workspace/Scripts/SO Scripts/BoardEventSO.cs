@@ -1,3 +1,5 @@
+using _Workspace.Scripts.Board_Scripts;
+using _Workspace.Scripts.Diamond;
 using _Workspace.Scripts.Shape_Scripts;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,6 +14,7 @@ namespace _Workspace.Scripts.SO_Scripts
         public UnityAction<BaseShape> OnShapePlaced;
         public UnityAction<int> OnSquareFilled;
         public UnityAction<int> OnRowColumnFilled;
+        public UnityAction<DiamondController> OnDiamondCollected;
 
         #endregion
 
@@ -30,6 +33,11 @@ namespace _Workspace.Scripts.SO_Scripts
         public void InvokeOnRowColumnFilled(int rowColumnCount)
         {
             OnRowColumnFilled?.Invoke(rowColumnCount);
+        }
+        
+        public void InvokeOnDiamondCollected(DiamondController collectedDiamond)
+        {
+            OnDiamondCollected?.Invoke(collectedDiamond);
         }
 
         #endregion

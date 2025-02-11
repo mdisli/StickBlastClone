@@ -546,11 +546,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _boardEventSO: {fileID: 11400000, guid: 431d3ebd3bb4748aa9e1ebc091302529, type: 2}
+  _levelEventSo: {fileID: 11400000, guid: 13958c1f598bf4774a1876cd6f84c5a0, type: 2}
   linePrefab: {fileID: 2422986248003963489, guid: deadbf00c7365453fa2a32fcbdb986d5,
     type: 3}
   edgePrefab: {fileID: 2079416968956484390, guid: aa789a1e53bcc4a979cfe55d5e7968f8,
     type: 3}
   squarePrefab: {fileID: 8981494881320678636, guid: cb40b45c0588e4dfca5f4b514216e57b,
+    type: 3}
+  diamondPrefab: {fileID: 2124614611957942676, guid: 9b0ea1b4b13c94fc2b16b2896b25a360,
     type: 3}
   _edgeXCount: 5
   _edgeZCount: 5
