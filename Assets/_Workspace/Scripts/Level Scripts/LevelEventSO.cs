@@ -14,9 +14,6 @@ namespace _Workspace.Scripts.Level_Scripts
         public UnityAction<int> OnLevelCompleted;
         public UnityAction<int> OnLevelFailed;
 
-        public UnityAction<int> OnPointGained;
-        
-
         #endregion
 
         #region Invoking
@@ -33,8 +30,6 @@ namespace _Workspace.Scripts.Level_Scripts
         }
 
         public void InvokeOnLevelFailed(int levelIndex) => OnLevelFailed?.Invoke(levelIndex);
-        
-        public void InvokeOnPointGained(int point) => OnPointGained?.Invoke(point);
 
         #endregion
     }

@@ -35,8 +35,8 @@ namespace _Workspace.Scripts.Level_Scripts
         private void GenerateLevel(int level)
         {
             LevelController levelController = Instantiate(levelControllerPrefab);
-            
-            LevelSO levelData = levelList[level];
+
+            LevelSO levelData = levelList.Count <= level ? levelList[level % levelList.Count] : levelList[level];
             
             levelEventSO.InvokeOnLevelSelected(levelData);
             

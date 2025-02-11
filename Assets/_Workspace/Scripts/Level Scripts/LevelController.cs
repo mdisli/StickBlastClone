@@ -1,7 +1,10 @@
 using System;
 using _Workspace.Scripts.Board_Scripts;
+using _Workspace.Scripts.Diamond;
+using _Workspace.Scripts.Managers;
 using _Workspace.Scripts.Shape_Scripts;
 using _Workspace.Scripts.SO_Scripts;
+using _Workspace.Scripts.UI_Scripts;
 using UnityEngine;
 
 namespace _Workspace.Scripts.Level_Scripts
@@ -17,9 +20,10 @@ namespace _Workspace.Scripts.Level_Scripts
         [Header("Level References")]
         [SerializeField] private BoardController boardController;
         [SerializeField] private ShapeManager shapeManager;
+        
         private LevelSO _levelData;
 
-        private int _currentPoint;
+        private int _targetDiamond;
         
         #endregion
 
@@ -27,26 +31,19 @@ namespace _Workspace.Scripts.Level_Scripts
 
         private void OnEnable()
         {
-            boardEventSo.OnRowColumnFilled += BoardEventSo_OnRowColumnFilled;
+            boardEventSo.OnDiamondCollected += BoardEventSo_OnDiamondCollected;
         }
-
+        
         private void OnDisable()
         {
-            boardEventSo.OnRowColumnFilled -= BoardEventSo_OnRowColumnFilled;
+            boardEventSo.OnDiamondCollected -= BoardEventSo_OnDiamondCollected;
         }
 
-        private void BoardEventSo_OnRowColumnFilled(int filledRowCount)
+        private void BoardEventSo_OnDiamondCollected(DiamondController arg0)
         {
-            int point = filledRowCount * _levelData.pointPerRowColumn;
-            
-            _currentPoint += point;
-            
-            levelEventSo.InvokeOnPointGained(point);
-
-            if (_currentPoint >= _levelData.targetPoint)
-            {
-                levelEventSo.InvokeOnLevelCompleted(_levelData.levelId);
-            }
+            _targetDiamond--;
+            if(_targetDiamond <= 0)
+                levelEventSo.InvokeOnLevelCompleted(PlayerPrefsManager.GetCurrentLevel());
         }
 
         #endregion
@@ -54,6 +51,7 @@ namespace _Workspace.Scripts.Level_Scripts
         public void SetLevelData(LevelSO levelData)
         {
             _levelData = levelData;
+            _targetDiamond = levelData.targetDiamond;
             shapeManager.SetShapeData(levelData.levelShapeDataList);
             boardController.GenerateBoard();
         }

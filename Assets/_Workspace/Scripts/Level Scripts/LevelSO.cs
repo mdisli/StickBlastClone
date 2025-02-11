@@ -9,9 +9,8 @@ namespace _Workspace.Scripts.Level_Scripts
     public class LevelSO : ScriptableObject
     {
         public int levelId;
-        [FormerlySerializedAs("pointPerSquare")] public int pointPerRowColumn;
-        public float pointMultiplierOnDoubleSquare;
-        public int targetPoint;
+        public int pointPerRowColumn;
+        public int targetDiamond;
         public List<LevelShapeData> levelShapeDataList = new List<LevelShapeData>();
         
     }

@@ -1,5 +1,7 @@
+using System;
 using _Workspace.Scripts.Level_Scripts;
 using _Workspace.Scripts.SO_Scripts;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace _Workspace.Scripts.Managers
@@ -12,6 +14,9 @@ namespace _Workspace.Scripts.Managers
         [SerializeField] private LevelEventSO levelEventSO;
         [SerializeField] private BoardEventSO boardEventSo;
 
+        [Header("Particle Prefabs")] 
+        [SerializeField] private ParticleSystem[] confetties;
+
         #endregion
         
         #region Unity Funcs
@@ -19,6 +24,25 @@ namespace _Workspace.Scripts.Managers
         private void Start()
         {
             Application.targetFrameRate = 60;
+        }
+
+        private void OnEnable()
+        {
+            levelEventSO.OnLevelCompleted += LevelEventSo_OnLevelCompleted;
+        }
+
+        private void OnDisable()
+        {
+            levelEventSO.OnLevelCompleted -= LevelEventSo_OnLevelCompleted;
+        }
+
+        private async void LevelEventSo_OnLevelCompleted(int arg0)
+        {
+            foreach (var confetty in confetties)
+            {
+                confetty.Play();
+                await UniTask.Delay(150);
+            }
         }
 
         #endregion
